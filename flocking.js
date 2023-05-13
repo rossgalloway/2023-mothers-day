@@ -128,10 +128,10 @@ Boid.prototype.render = function () {
 
 // Wraparound
 Boid.prototype.borders = function () {
-  if (this.position.x < -this.rFind) this.position.x = width * 1.3 + this.rFind
-  if (this.position.y < -this.rFind) this.position.y = height * 1.3 + this.rFind
-  if (this.position.x > width * 1.3 + this.rFind) this.position.x = -this.rFind
-  if (this.position.y > height * 1.3 + this.rFind) this.position.y = -this.rFind
+  if (this.position.x < -this.rFind) this.position.x = width * 1.5 + this.rFind
+  if (this.position.y < -this.rFind) this.position.y = height * 1.5 + this.rFind
+  if (this.position.x > width * 1.5 + this.rFind) this.position.x = -this.rFind
+  if (this.position.y > height * 1.5 + this.rFind) this.position.y = -this.rFind
 }
 
 // Separation

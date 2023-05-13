@@ -5,10 +5,10 @@ const startFrame = 1 * drawing_scalar
 let start2 = 0;
 let start3 = 0;
 const DURATION = FRAME_RATE * 10
-let scale = 1.5
+let scale = 1.25
 // these next 3 variables are determined by the text
 const titleWidth = 600
-const titleHeight = 400
+const titleHeight = 480
 const baselineTitleSpacing = 100
 let AdditionalTitleSpacing = 0
 
@@ -147,7 +147,7 @@ function draw() {
   //   titleWidth * scale,
   //   0
   // )
-  // //----------------
+  //----------------
 
   // dear_text.shape()
   // mom_text.shape()
@@ -289,39 +289,39 @@ function draw() {
       apostrophe_text.scaledBezierVertices
     )
   }
-  if (frameCount > 118 * drawing_scalar) {
+  if (frameCount > 115 * drawing_scalar) {
     animS.shape('day2', 3 * drawing_scalar, day_2_text.scaledBezierVertices)
   }
-  if (frameCount > 121 * drawing_scalar) {
+  if (frameCount > 118 * drawing_scalar) {
     animS.shape(
       'exclamationLine',
       1 * drawing_scalar,
       exclamation_line.scaledBezierVertices
     )
   }
-  if (frameCount > 123 * drawing_scalar) {
+  if (frameCount > 119 * drawing_scalar) {
     animS.shape('exclamationPoint', 1, exclamation_point.scaledBezierVertices)
   }
-  if (frameCount > 124 * drawing_scalar) {
+  if (frameCount > 120 * drawing_scalar) {
     animS.shape('your', 4 * drawing_scalar, your_text.scaledBezierVertices)
   }
-  if (frameCount > 128 * drawing_scalar) {
+  if (frameCount > 124 * drawing_scalar) {
     animS.shape('dutiful', 7 * drawing_scalar, dutiful_text.scaledBezierVertices)
   }
-  if (frameCount > 135 * drawing_scalar) {
+  if (frameCount > 131 * drawing_scalar) {
     animS.shape(
       'dutifulCrossedT',
       2 * drawing_scalar,
       dutiful_crossed_T_text.scaledBezierVertices
     )
   }
-  if (frameCount > 137 * drawing_scalar) {
+  if (frameCount > 133 * drawing_scalar) {
     animS.shape('son', 3 * drawing_scalar, son_text.scaledBezierVertices)
   }
-  if (frameCount > 140 * drawing_scalar) {
+  if (frameCount > 136 * drawing_scalar) {
     animS.shape('comma3', 1 * drawing_scalar, comma_3_text.scaledBezierVertices)
   }
-  if (frameCount > 144 * drawing_scalar) {
+  if (frameCount > 140 * drawing_scalar) {
     animS.shape('ross', 4 * drawing_scalar, ross_text.scaledBezierVertices)
   }
 
