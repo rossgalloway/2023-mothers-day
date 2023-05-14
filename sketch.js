@@ -1,6 +1,7 @@
 const FRAME_RATE = 30
 const fadeInDuration = FRAME_RATE * 3
-const drawing_scalar = 1
+// TODO rename this variable
+const drawing_scalar = 6
 const startFrame = 1 * drawing_scalar
 const DURATION = FRAME_RATE * 10
 let scale = 1.25
