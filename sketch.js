@@ -1,9 +1,7 @@
 const FRAME_RATE = 30
 const fadeInDuration = FRAME_RATE * 3
-const drawing_scalar = 6
+const drawing_scalar = 1
 const startFrame = 1 * drawing_scalar
-let start2 = 0;
-let start3 = 0;
 const DURATION = FRAME_RATE * 10
 let scale = 1.25
 // these next 3 variables are determined by the text
@@ -11,6 +9,9 @@ const titleWidth = 600
 const titleHeight = 480
 const baselineTitleSpacing = 100
 let AdditionalTitleSpacing = 0
+let messageTimingOffset = 5 * FRAME_RATE
+rossMark_thickness = 0
+rossMark_color = 255
 
 // required offsets for flocking boids to start in the right spots
 pointsOffsetX_specific = (window.innerWidth - titleWidth * scale) / 2
@@ -46,9 +47,17 @@ for (let i = 0; i < objectstoAvoid.length; i++) {
   )
 }
 
+let myFont
+
+function preload() {
+  myFont = loadFont('assets/BetterGrade-519DV.ttf')
+}
+
 function setup() {
   createCanvas(window.innerWidth, window.innerHeight)
   frameRate(FRAME_RATE)
+  textFont(myFont)
+  textSize(144)
 
   // create new Flock object
   mainFlock = new Flock()
@@ -80,44 +89,67 @@ function draw() {
     flappyCounter = 0
   }
 
-  if (frameCount <= 148 * drawing_scalar) {
+  if (frameCount <= 148 * drawing_scalar + messageTimingOffset) {
     textColor = color(0)
     r = 0
     g = 0
     b = 0
-  } else if (frameCount <= (148 * drawing_scalar) + 200) {
+  } else if (frameCount <= 148 * drawing_scalar + 200 + messageTimingOffset) {
     thickness = map(
       frameCount,
-      148 * drawing_scalar,
-      148 * drawing_scalar + 200,
+      148 * drawing_scalar + messageTimingOffset,
+      148 * drawing_scalar + 200 + messageTimingOffset,
       1,
       10
     )
-    r = map(frameCount,      148 * drawing_scalar,
-      148 * drawing_scalar + 200, 0, 130)
-    g = map(frameCount, 148 * drawing_scalar, 148 * drawing_scalar + 200, 0, 80)
-    b = map(frameCount, 148 * drawing_scalar, 148 * drawing_scalar + 200, 0, 80)
-    stroke(color(r, g, b))
-  } else if (frameCount <= DURATION + 205) {
-    thickness = map(frameCount, DURATION + 200, DURATION + 205, 20, 40)
     r = map(
       frameCount,
-      148 * drawing_scalar + 200,
-      148 * drawing_scalar + 205,
+      148 * drawing_scalar + messageTimingOffset,
+      148 * drawing_scalar + 200 + messageTimingOffset,
+      0,
+      130
+    )
+    g = map(
+      frameCount,
+      148 * drawing_scalar + messageTimingOffset,
+      148 * drawing_scalar + 200 + messageTimingOffset,
+      0,
+      80
+    )
+    b = map(
+      frameCount,
+      148 * drawing_scalar + messageTimingOffset,
+      148 * drawing_scalar + 200 + messageTimingOffset,
+      0,
+      80
+    )
+    stroke(color(r, g, b))
+  } else if (frameCount <= 148 * drawing_scalar + 205 + messageTimingOffset) {
+    thickness = map(
+      frameCount,
+      148 * drawing_scalar + 200 + messageTimingOffset,
+      148 * drawing_scalar + 205 + messageTimingOffset,
+      20,
+      40
+    )
+    r = map(
+      frameCount,
+      148 * drawing_scalar + 200 + messageTimingOffset,
+      148 * drawing_scalar + 205 + messageTimingOffset,
       130,
       130
     )
     g = map(
       frameCount,
-      148 * drawing_scalar + 200,
-      148 * drawing_scalar + 205,
+      148 * drawing_scalar + 200 + messageTimingOffset,
+      148 * drawing_scalar + 205 + messageTimingOffset,
       100,
       60
     )
     b = map(
       frameCount,
-      148 * drawing_scalar + 200,
-      148 * drawing_scalar + 205,
+      148 * drawing_scalar + 200 + messageTimingOffset,
+      148 * drawing_scalar + 205 + messageTimingOffset,
       100,
       60
     )
@@ -127,6 +159,30 @@ function draw() {
     thickness = 1
     noFill()
     mainFlock.run()
+  }
+
+  if (frameCount <= messageTimingOffset) {
+    push()
+    translate((width - 300) / 2, height / 2)
+    // strokeWeight(rossMark_thickness)
+    fill(rossMark_color)
+    noStroke()
+    if ((frameCount <= messageTimingOffset / 2, frameCount >= 0)) {
+      rossMark_color = map(frameCount, 0, messageTimingOffset / 2, 255, 0)
+    }
+    if (
+      (frameCount >= messageTimingOffset / 2, frameCount <= messageTimingOffset)
+    ) {
+      rossMark_color = map(
+        frameCount,
+        messageTimingOffset / 2,
+        messageTimingOffset,
+        0,
+        255
+      )
+      text('RossMark', 0, 0)
+    }
+    pop()
   }
 
   push()
@@ -190,138 +246,154 @@ function draw() {
   // exclamation_line.shape()
   // exclamation_point.shape()
   // line_1.shape()
-  if (frameCount > 1 * drawing_scalar) {
+
+  if (frameCount > 1 * drawing_scalar + messageTimingOffset) {
     animS.shape('Dear', 4 * drawing_scalar, dear_text.scaledBezierVertices)
   }
-  if (frameCount > 5 * drawing_scalar) {
-
+  if (frameCount > 5 * drawing_scalar + messageTimingOffset) {
     animS.shape('Mom', 3 * drawing_scalar, mom_text.scaledBezierVertices)
   }
-  if (frameCount > 8 * drawing_scalar) {
+  if (frameCount > 8 * drawing_scalar + messageTimingOffset) {
     animS.shape('comma1', 1 * drawing_scalar, comma_1_text.scaledBezierVertices)
   }
-  if (frameCount > 9 * drawing_scalar) {
+  if (frameCount > 9 * drawing_scalar + messageTimingOffset) {
     animS.shape('while', 5 * drawing_scalar, while_text.scaledBezierVertices)
   }
-  if (frameCount > 14 * drawing_scalar) {
+  if (frameCount > 14 * drawing_scalar + messageTimingOffset) {
     animS.shape('my', 2 * drawing_scalar, my_text.scaledBezierVertices)
   }
-  if (frameCount > 16 * drawing_scalar) {
+  if (frameCount > 16 * drawing_scalar + messageTimingOffset) {
     animS.shape('cards', 5 * drawing_scalar, cards_text.scaledBezierVertices)
   }
-  if (frameCount > 21 * drawing_scalar) {
+  if (frameCount > 21 * drawing_scalar + messageTimingOffset) {
     animS.shape('may', 3 * drawing_scalar, may_text.scaledBezierVertices)
   }
-  if (frameCount > 24 * drawing_scalar) {
+  if (frameCount > 24 * drawing_scalar + messageTimingOffset) {
     animS.shape('keep', 4 * drawing_scalar, keep_text.scaledBezierVertices)
   }
-  if (frameCount > 28 * drawing_scalar) {
-    animS.shape('evolving', 8 * drawing_scalar, evolving_text.scaledBezierVertices)
+  if (frameCount > 28 * drawing_scalar + messageTimingOffset) {
+    animS.shape(
+      'evolving',
+      8 * drawing_scalar,
+      evolving_text.scaledBezierVertices
+    )
   }
-  if (frameCount > 36 * drawing_scalar) {
+  if (frameCount > 36 * drawing_scalar + messageTimingOffset) {
     animS.shape('comma2', 1 * drawing_scalar, comma_2_text.scaledBezierVertices)
   }
-  if (frameCount > 37 * drawing_scalar) {
+  if (frameCount > 37 * drawing_scalar + messageTimingOffset) {
     animS.shape('my2', 2 * drawing_scalar, my_2_text.scaledBezierVertices)
   }
-  if (frameCount > 39 * drawing_scalar) {
+  if (frameCount > 39 * drawing_scalar + messageTimingOffset) {
     animS.shape('love', 4 * drawing_scalar, love_text.scaledBezierVertices)
   }
-  if (frameCount > 43 * drawing_scalar) {
+  if (frameCount > 43 * drawing_scalar + messageTimingOffset) {
     animS.shape('and', 3 * drawing_scalar, and_text.scaledBezierVertices)
   }
-  if (frameCount > 46 * drawing_scalar) {
+  if (frameCount > 46 * drawing_scalar + messageTimingOffset) {
     animS.shape(
       'appreciation',
       10 * drawing_scalar,
       appreciation_text.scaledBezierVertices
     )
   }
-  if (frameCount > 56 * drawing_scalar) {
+  if (frameCount > 56 * drawing_scalar + messageTimingOffset) {
     animS.shape('for', 3 * drawing_scalar, for_text.scaledBezierVertices)
   }
-  if (frameCount > 59 * drawing_scalar) {
+  if (frameCount > 59 * drawing_scalar + messageTimingOffset) {
     animS.shape('you', 3 * drawing_scalar, you_text.scaledBezierVertices)
   }
-  if (frameCount > 62 * drawing_scalar) {
+  if (frameCount > 62 * drawing_scalar + messageTimingOffset) {
     animS.shape('is', 2 * drawing_scalar, is_text.scaledBezierVertices)
   }
-  if (frameCount > 64 * drawing_scalar) {
+  if (frameCount > 64 * drawing_scalar + messageTimingOffset) {
     animS.shape('i', 1 * drawing_scalar, i_dot.scaledBezierVertices)
   }
-  if (frameCount > 65 * drawing_scalar) {
+  if (frameCount > 65 * drawing_scalar + messageTimingOffset) {
     animS.shape('always', 6 * drawing_scalar, always_text.scaledBezierVertices)
   }
-  if (frameCount > 71 * drawing_scalar) {
-    animS.shape('constant', 8 * drawing_scalar, constant_text.scaledBezierVertices)
+  if (frameCount > 71 * drawing_scalar + messageTimingOffset) {
+    animS.shape(
+      'constant',
+      8 * drawing_scalar,
+      constant_text.scaledBezierVertices
+    )
   }
-  if (frameCount > 79 * drawing_scalar) {
+  if (frameCount > 79 * drawing_scalar + messageTimingOffset) {
     animS.shape('period', 6 * drawing_scalar, period_text.scaledBezierVertices)
   }
-  if (frameCount > 85 * drawing_scalar) {
+  if (frameCount > 85 * drawing_scalar + messageTimingOffset) {
     animS.shape('I', 1 * drawing_scalar, I_text.scaledBezierVertices)
   }
-  if (frameCount > 86 * drawing_scalar) {
+  if (frameCount > 86 * drawing_scalar + messageTimingOffset) {
     animS.shape('will', 4 * drawing_scalar, will_text.scaledBezierVertices)
   }
-  if (frameCount > 90 * drawing_scalar) {
+  if (frameCount > 90 * drawing_scalar + messageTimingOffset) {
     animS.shape('try', 3 * drawing_scalar, try_text.scaledBezierVertices)
   }
-  if (frameCount > 93 * drawing_scalar) {
+  if (frameCount > 93 * drawing_scalar + messageTimingOffset) {
     animS.shape('to', 2 * drawing_scalar, to_text.scaledBezierVertices)
   }
-  if (frameCount > 95 * drawing_scalar) {
+  if (frameCount > 95 * drawing_scalar + messageTimingOffset) {
     animS.shape('make', 4 * drawing_scalar, make_text.scaledBezierVertices)
   }
-  if (frameCount > 99 * drawing_scalar) {
+  if (frameCount > 99 * drawing_scalar + messageTimingOffset) {
     animS.shape('every', 5 * drawing_scalar, every_text.scaledBezierVertices)
   }
-  if (frameCount > 104 * drawing_scalar) {
+  if (frameCount > 104 * drawing_scalar + messageTimingOffset) {
     animS.shape('day', 3 * drawing_scalar, day_text.scaledBezierVertices)
   }
-  if (frameCount > 107 * drawing_scalar) {
-    animS.shape('mothers', 7 * drawing_scalar, mothers_text.scaledBezierVertices)
+  if (frameCount > 107 * drawing_scalar + messageTimingOffset) {
+    animS.shape(
+      'mothers',
+      7 * drawing_scalar,
+      mothers_text.scaledBezierVertices
+    )
   }
-  if (frameCount > 114 * drawing_scalar) {
+  if (frameCount > 114 * drawing_scalar + messageTimingOffset) {
     animS.shape(
       'apostrophe',
       1 * drawing_scalar,
       apostrophe_text.scaledBezierVertices
     )
   }
-  if (frameCount > 115 * drawing_scalar) {
+  if (frameCount > 115 * drawing_scalar + messageTimingOffset) {
     animS.shape('day2', 3 * drawing_scalar, day_2_text.scaledBezierVertices)
   }
-  if (frameCount > 118 * drawing_scalar) {
+  if (frameCount > 118 * drawing_scalar + messageTimingOffset) {
     animS.shape(
       'exclamationLine',
       1 * drawing_scalar,
       exclamation_line.scaledBezierVertices
     )
   }
-  if (frameCount > 119 * drawing_scalar) {
+  if (frameCount > 119 * drawing_scalar + messageTimingOffset) {
     animS.shape('exclamationPoint', 1, exclamation_point.scaledBezierVertices)
   }
-  if (frameCount > 120 * drawing_scalar) {
+  if (frameCount > 120 * drawing_scalar + messageTimingOffset) {
     animS.shape('your', 4 * drawing_scalar, your_text.scaledBezierVertices)
   }
-  if (frameCount > 124 * drawing_scalar) {
-    animS.shape('dutiful', 7 * drawing_scalar, dutiful_text.scaledBezierVertices)
+  if (frameCount > 124 * drawing_scalar + messageTimingOffset) {
+    animS.shape(
+      'dutiful',
+      7 * drawing_scalar,
+      dutiful_text.scaledBezierVertices
+    )
   }
-  if (frameCount > 131 * drawing_scalar) {
+  if (frameCount > 131 * drawing_scalar + messageTimingOffset) {
     animS.shape(
       'dutifulCrossedT',
       2 * drawing_scalar,
       dutiful_crossed_T_text.scaledBezierVertices
     )
   }
-  if (frameCount > 133 * drawing_scalar) {
+  if (frameCount > 133 * drawing_scalar + messageTimingOffset) {
     animS.shape('son', 3 * drawing_scalar, son_text.scaledBezierVertices)
   }
-  if (frameCount > 136 * drawing_scalar) {
+  if (frameCount > 136 * drawing_scalar + messageTimingOffset) {
     animS.shape('comma3', 1 * drawing_scalar, comma_3_text.scaledBezierVertices)
   }
-  if (frameCount > 140 * drawing_scalar) {
+  if (frameCount > 140 * drawing_scalar + messageTimingOffset) {
     animS.shape('ross', 4 * drawing_scalar, ross_text.scaledBezierVertices)
   }
 
